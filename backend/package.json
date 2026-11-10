@@ -2,7 +2,7 @@
   "name": "busy-on-cloud-backend",
   "version": "2.0.0",
   "private": true,
-  "description": "Busy On Cloud - Node.js (Express) API backed by Microsoft SQL Server",
+  "description": "Busy On Cloud - Node.js (Express) API backed by MySQL",
   "main": "src/server.js",
   "engines": { "node": ">=18" },
   "scripts": {
@@ -14,6 +14,6 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "mssql": "^11.0.1"
+    "mysql2": "^3.9.7"
   }
 }

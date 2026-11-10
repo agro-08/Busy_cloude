@@ -1,8 +1,6 @@
 const path = require('node:path');
 require('dotenv').config({ path: path.join(__dirname, '..', '..', '.env') });
 
-const bool = (v, d = false) => (v === undefined || v === '' ? d : String(v).toLowerCase() === 'true');
-
 module.exports = {
   isProd: process.env.NODE_ENV === 'production',
   host: process.env.HOST || '127.0.0.1',
@@ -13,15 +11,14 @@ module.exports = {
   maxBody: '12mb',
   sessionTtlMs: 12 * 60 * 60 * 1000,
   db: {
-    server: process.env.DB_SERVER || 'localhost',
-    port: Number(process.env.DB_PORT || 1433),
+    host: process.env.DB_HOST || process.env.DB_SERVER || 'localhost',
+    port: Number(process.env.DB_PORT || 3306),
     database: process.env.DB_NAME || 'BusyOnCloud',
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    options: {
-      encrypt: bool(process.env.DB_ENCRYPT, false),
-      trustServerCertificate: bool(process.env.DB_TRUST_SERVER_CERT, true)
-    },
-    pool: { max: 10, min: 0, idleTimeoutMillis: 30000 }
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD !== undefined ? process.env.DB_PASSWORD : '',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+    charset: 'utf8mb4'
   }
 };

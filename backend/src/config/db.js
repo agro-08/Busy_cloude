@@ -1,21 +1,26 @@
-const sql = require('mssql');
+const mysql = require('mysql2/promise');
 const config = require('./env');
 
-let poolPromise;
+let pool;
 
 /** One shared connection pool for the whole app. */
-function getPool() {
-  if (!poolPromise) {
-    poolPromise = new sql.ConnectionPool(config.db).connect().catch(err => {
-      poolPromise = undefined;
-      throw err;
-    });
+async function getPool() {
+  if (!pool) {
+    const p = mysql.createPool(config.db);
+    // Verify connection immediately so we fail fast if MySQL is unreachable
+    const conn = await p.getConnection();
+    conn.release();
+    pool = p;
   }
-  return poolPromise;
+  return pool;
 }
 
 async function closePool() {
-  if (poolPromise) { const p = await poolPromise; await p.close(); poolPromise = undefined; }
+  if (pool) {
+    const p = pool;
+    pool = undefined;
+    await p.end();
+  }
 }
 
-module.exports = { sql, getPool, closePool };
+module.exports = { getPool, closePool };

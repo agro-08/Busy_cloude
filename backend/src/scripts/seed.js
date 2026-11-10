@@ -1,4 +1,4 @@
-/* Loads database/seed/initial-site-data.json into SQL Server (only if the DB has no content yet).
+/* Loads database/seed/initial-site-data.json into MySQL (only if the DB has no content yet).
    Use:  npm run db:seed          (add --force to overwrite existing content) */
 const fs = require('node:fs');
 const path = require('node:path');

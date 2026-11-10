@@ -1,5 +1,9 @@
-/* Manual full backup. Change the path to a folder SQL Server can write to. */
-BACKUP DATABASE [BusyOnCloud]
-TO DISK = N'C:\SQLBackups\BusyOnCloud.bak'
-WITH INIT, COMPRESSION, CHECKSUM, STATS = 10;
-GO
+-- =====================================================================
+-- Manual backup using mysqldump.
+-- Run this command in terminal/PowerShell (not inside MySQL client):
+--
+-- mysqldump -u root -p --routines --triggers BusyOnCloud > BusyOnCloud_backup.sql
+--
+-- To restore:
+-- mysql -u root -p BusyOnCloud < BusyOnCloud_backup.sql
+-- =====================================================================

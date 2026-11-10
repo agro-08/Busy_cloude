@@ -1,11 +1,11 @@
 # Architecture
 
-Browser ──► Express (`backend/src`) ──► SQL Server (`BusyOnCloud`)
+Browser ──► Express (`backend/src`) ──► MySQL (`BusyOnCloud`)
               │
               └── also serves `frontend/public` as static files (same origin → cookies just work)
 
 ## Backend layers
-`routes` → `controllers` (HTTP only) → `services` (rules, validation, auth) → `repositories` (SQL) → `config/db` (pool)
+`routes` → `controllers` (HTTP only) → `services` (rules, validation, auth) → `repositories` (MySQL) → `config/db` (pool)
 
 ## API (unchanged from the old JSON-file version, so the frontend needed no code change)
 | Method | Path                | Auth  | Purpose |
@@ -19,9 +19,9 @@ Browser ──► Express (`backend/src`) ──► SQL Server (`BusyOnCloud`)
 | POST   | /api/admin/password | admin | Change admin password |
 
 ## Security notes
-- Passwords: scrypt + random salt, stored in `dbo.AdminUsers`.
+- Passwords: scrypt + random salt, stored in `AdminUsers`.
 - Session cookie: HttpOnly, SameSite=Strict (+Secure on HTTPS). Sessions are in memory.
-- Use a least-privilege SQL login (`database/scripts/create-db-user.sql`), never `sa`.
+- Use a least-privilege MySQL user (`database/scripts/create-db-user.sql`), never `root`.
 - Production: set `NODE_ENV=production`, `BOC_ADMIN_PASSWORD`, `BOC_SECURE_COOKIES=true`, `TRUST_PROXY=true` behind a reverse proxy, use HTTPS.
 
 ## Migrating old data
