@@ -1,0 +1,109 @@
+/* ==========================================================
+   theme-sky.css  -  "Sky Bubble" light design
+   Sirf tab lagta hai jab admin me Design = Sky Bubble ho.
+   White + sky blue, bubbly rounded shapes, coral accent.
+   ========================================================== */
+html[data-theme="sky"] {
+  --deep: #0b2a6b;
+  --ink: #12244d;
+  --ice: #eef6ff;
+  --blue: #2563eb;
+  --blue-d: #1d4ed8;
+  --cyan: #38bdf8;
+  --line: #dbe8fb;
+  --coral: #e8385a;
+  --head: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+}
+html[data-theme="sky"] h1, html[data-theme="sky"] h2, html[data-theme="sky"] h3, html[data-theme="sky"] h4 { letter-spacing: -0.03em; }
+
+/* buttons: pill shaped, coral stands out on blue/white */
+html[data-theme="sky"] .btn { border-radius: 999px; }
+html[data-theme="sky"] .btn-glow { background: var(--coral); color: #fff; box-shadow: 0 12px 26px -10px rgba(232, 56, 90, .75); }
+html[data-theme="sky"] .btn-glow:hover { box-shadow: 0 16px 30px -8px rgba(232, 56, 90, .9); filter: brightness(1.06); }
+html[data-theme="sky"] .btn-glass { background: #fff; color: var(--deep); border-color: var(--line); backdrop-filter: none; }
+html[data-theme="sky"] .btn-glass:hover { border-color: var(--blue); background: #fff; }
+html[data-theme="sky"] .btn-outline { background: rgba(255, 255, 255, .14); color: #fff; border-color: rgba(255, 255, 255, .7); }
+html[data-theme="sky"] .btn-outline:hover { background: rgba(255, 255, 255, .26); border-color: #fff; }
+html[data-theme="sky"] .site-header::after { display: none; }
+
+/* hero */
+html[data-theme="sky"] .hero { color: var(--deep); clip-path: none; border-radius: 0 0 60px 60px; padding: 84px 0 120px; background:
+  radial-gradient(55% 70% at 85% 15%, #b9ddff, transparent 70%),
+  radial-gradient(40% 55% at 0% 100%, #ffdde5, transparent 70%),
+  linear-gradient(180deg, #e2f1ff, #ffffff); }
+html[data-theme="sky"] .hero::before { background: radial-gradient(rgba(37, 99, 235, .22) 1.6px, transparent 1.7px); background-size: 30px 30px; }
+html[data-theme="sky"] .orb.o1 { background: rgba(56, 189, 248, .5); }
+html[data-theme="sky"] .orb.o2 { background: rgba(255, 93, 122, .3); }
+html[data-theme="sky"] .cloud { opacity: .95; filter: drop-shadow(0 14px 22px rgba(37, 99, 235, .18)); }
+html[data-theme="sky"] .cloud.c3 { opacity: .8; }
+html[data-theme="sky"] .pill { background: #fff; color: var(--deep); border-color: var(--line); box-shadow: 0 8px 20px -10px rgba(37, 99, 235, .45); }
+html[data-theme="sky"] .pill i { color: var(--coral); }
+html[data-theme="sky"] .hero h1 { background: none; color: var(--deep); -webkit-text-fill-color: var(--deep); font-weight: 800; }
+html[data-theme="sky"] .lead { color: #3b507a; }
+html[data-theme="sky"] .hero-art::before { inset: 0; border: 0; box-shadow: none; background: radial-gradient(circle, #fff 0 52%, rgba(255, 255, 255, 0) 71%); }
+html[data-theme="sky"] .hero-art img { filter: drop-shadow(0 26px 30px rgba(37, 99, 235, .3)); }
+
+/* light sections */
+html[data-theme="sky"] .section-grid { background: #fff; }
+html[data-theme="sky"] .head h2, html[data-theme="sky"] .why-grid h2 { font-weight: 800; }
+html[data-theme="sky"] .feat { border-radius: 22px; border-color: transparent; background: var(--ice); }
+html[data-theme="sky"] .feat::before { display: none; }
+html[data-theme="sky"] .feat:hover { background: #fff; border-color: transparent; box-shadow: 0 20px 36px -18px rgba(37, 99, 235, .5); }
+html[data-theme="sky"] .feat-ico { background: #fff; }
+html[data-theme="sky"] .badges li { border-radius: 22px; border-color: transparent; background: var(--ice); }
+html[data-theme="sky"] .badges li:hover { border-color: transparent; background: #fff; box-shadow: 0 16px 30px -16px rgba(37, 99, 235, .5); }
+html[data-theme="sky"] .section-mist { background: linear-gradient(180deg, var(--ice), #fff); }
+html[data-theme="sky"] .acc details { border-radius: 18px; }
+html[data-theme="sky"] .acc details[open] { box-shadow: 0 16px 30px -18px rgba(37, 99, 235, .5); }
+html[data-theme="sky"] .acc details[open] summary::after { background: var(--coral); color: #fff; }
+html[data-theme="sky"] .support-grid article { border: 1px solid var(--line); border-image: none; border-radius: 24px; box-shadow: 0 18px 34px -26px rgba(37, 99, 235, .5); }
+html[data-theme="sky"] .shots figure { border: 6px solid #fff; border-radius: 26px; background: var(--deep); box-shadow: 0 30px 50px -26px rgba(37, 99, 235, .6); }
+html[data-theme="sky"] .shots figcaption { border-top-color: rgba(255, 255, 255, .15); }
+
+/* pricing: light, bubbly cards */
+html[data-theme="sky"] .section-night { background: linear-gradient(180deg, #eef6ff, #cfe5ff); color: var(--ink); }
+html[data-theme="sky"] .section-night::before { display: none; }
+html[data-theme="sky"] .head-light h2 { color: var(--deep); }
+html[data-theme="sky"] .head-light p { color: var(--muted); }
+html[data-theme="sky"] .group-title { color: var(--deep); font-weight: 800; }
+html[data-theme="sky"] .empty { color: var(--muted); }
+html[data-theme="sky"] .plan { background: #fff; border: 2px solid transparent; border-radius: 32px; box-shadow: 0 28px 46px -30px rgba(37, 99, 235, .6); }
+html[data-theme="sky"] .plan:hover { border-color: var(--a); box-shadow: 0 32px 50px -24px var(--glow); }
+html[data-theme="sky"] .plan.has-badge { border-color: var(--a); box-shadow: 0 30px 50px -24px var(--glow); }
+html[data-theme="sky"] .plan-top { border-radius: 0 0 50% 50% / 0 0 30px 30px; padding-bottom: 34px; }
+html[data-theme="sky"] .plan-top::before { opacity: .22; }
+html[data-theme="sky"] .plan-badge { background: var(--coral); color: #fff; border: 2px solid #fff; box-shadow: 0 8px 16px -6px rgba(232, 56, 90, .7); }
+html[data-theme="sky"] .plan-ico { border-radius: 50%; }
+html[data-theme="sky"] .plan h4 { font-weight: 800; font-size: 1.05rem; }
+html[data-theme="sky"] .plan-price { font-weight: 800; }
+html[data-theme="sky"] .c-sky { --a: #0a8fd6; }
+html[data-theme="sky"] .c-ocean { --a: #2563eb; }
+html[data-theme="sky"] .c-midnight { --a: #5b3df0; }
+html[data-theme="sky"] .c-sun { --a: #d6249f; }
+html[data-theme="sky"] .plan-body { color: var(--ink); }
+html[data-theme="sky"] .chip { border-radius: 18px; }
+html[data-theme="sky"] .chip-spec { background: var(--ice); color: var(--deep); border-color: var(--line); }
+html[data-theme="sky"] .chip-users { background: #e3f8ee; color: #0b6b40; border-color: #bfeed7; }
+html[data-theme="sky"] .plan-note { color: #c92a4b; }
+html[data-theme="sky"] .plan-btn { border-radius: 999px; }
+
+/* stats + demo */
+html[data-theme="sky"] .stats-sec { background: linear-gradient(90deg, #2563eb, #38bdf8); border: 0; }
+html[data-theme="sky"] .stat-card { background: linear-gradient(145deg, #fff 0%, #f2f7ff 100%); border-color: rgba(255, 255, 255, .8); }
+html[data-theme="sky"] .stats-pill { background: rgba(255, 255, 255, .88); border-color: rgba(255, 255, 255, .9); color: #123b80; }
+html[data-theme="sky"] .stats-pill i { color: #1d4ed8; }
+html[data-theme="sky"] .demo-section { background: linear-gradient(180deg, #f2f7ff, #fff); }
+html[data-theme="sky"] .demo-card { border: 0; border-radius: 32px; box-shadow: 0 30px 60px -34px rgba(37, 99, 235, .75); background:
+  radial-gradient(45% 90% at 100% 0%, rgba(147, 197, 253, .48), transparent 75%),
+  linear-gradient(120deg, #2563eb, #1d4ed8 72%, #1e40af); }
+html[data-theme="sky"] .demo-card h2 { font-weight: 800; }
+html[data-theme="sky"] .contact-list li { background: rgba(255, 255, 255, .12); border-color: rgba(255, 255, 255, .27); border-radius: 18px; }
+html[data-theme="sky"] .contact-list li:hover { background: rgba(255, 255, 255, .2); }
+html[data-theme="sky"] .contact-list i { color: #fff; }
+html[data-theme="sky"] .dlg { border-radius: 30px; }
+html[data-theme="sky"] .dlg form::before, html[data-theme="sky"] .dlg-done::before { background: linear-gradient(90deg, var(--cyan), var(--blue), var(--coral)); }
+html[data-theme="sky"] .dlg-done .btn-glow { color: #fff; }
+
+@media (max-width: 900px) {
+  html[data-theme="sky"] .hero { padding: 44px 0 90px; border-radius: 0 0 36px 36px; }
+}

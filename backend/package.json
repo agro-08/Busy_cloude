@@ -1,0 +1,19 @@
+{
+  "name": "busy-on-cloud-backend",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Busy On Cloud - Node.js (Express) API backed by Microsoft SQL Server",
+  "main": "src/server.js",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "db:seed": "node src/scripts/seed.js",
+    "check": "node --check src/server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mssql": "^11.0.1"
+  }
+}

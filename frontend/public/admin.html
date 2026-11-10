@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Panel - Busy On Cloud</title>
+  <link rel="icon" href="assets/img/Busy-on-cloud-micro-e1629081008400.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<section class="login" id="login">
+  <form class="login-card" id="loginForm">
+    <img src="assets/img/Busy-on-cloud-micro-e1629081008400.png" alt="Busy On Cloud">
+    <h1>Admin login</h1>
+    <p class="muted">Manage your website products, images, and messages here.</p>
+    <label>Password
+      <input type="password" id="loginPass" autocomplete="current-password" required autofocus>
+    </label>
+    <p class="err" id="loginErr" hidden>Wrong password. Try again.</p>
+    <button class="btn btn-primary btn-block" type="submit">Login</button>
+    <p class="hint-line">The default password for local setup is <b>admin123</b>. On the live server, ask the owner for the admin password.</p>
+    <a class="back" href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to website</a>
+  </form>
+</section>
+
+<!-- ================= APP ================= -->
+<div class="app" id="app" hidden>
+  <aside class="side" id="side">
+    <div class="side-brand">
+      <img src="assets/img/Busy-on-cloud-micro-e1629081008400.png" alt="Busy On Cloud">
+      <span>Admin</span>
+    </div>
+    <nav class="side-nav">
+      <button data-view="dashboard" class="active"><i class="fa-solid fa-gauge"></i>Dashboard</button>
+      <button data-view="products"><i class="fa-solid fa-boxes-stacked"></i>Products</button>
+      <button data-view="images"><i class="fa-solid fa-images"></i>Site Images</button>
+      <button data-view="settings"><i class="fa-solid fa-sliders"></i>Demo &amp; Contact</button>
+      <button data-view="messages"><i class="fa-solid fa-inbox"></i>Messages <span class="count" id="msgCount" hidden>0</span></button>
+      <button data-view="security"><i class="fa-solid fa-lock"></i>Security &amp; Backup</button>
+    </nav>
+    <div class="side-foot">
+      <a href="index.html" target="_blank" rel="noopener"><i class="fa-solid fa-up-right-from-square"></i>View website</a>
+      <button id="logout"><i class="fa-solid fa-right-from-bracket"></i>Logout</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+      <h1 id="viewTitle">Dashboard</h1>
+    </header>
+    <div class="scrim" id="scrim"></div>
+
+    <main class="content">
+
+      <!-- DASHBOARD -->
+      <section class="view" id="view-dashboard">
+        <div class="help"><b>What is this page?</b> A summary of the full admin panel. No changes are made here; this is just a quick overview and shortcut hub.</div>
+        <div class="cards" id="dashCards"></div>
+        <div class="panel">
+          <h2>What changes where?</h2>
+          <table class="guide">
+            <thead><tr><th>Menu</th><th>What changes on the website</th></tr></thead>
+            <tbody>
+              <tr><td><button class="link" data-go="products">Products</button></td><td>All pricing plan cards: name, price, features, product image, and button link. Add new plans or delete old ones.</td></tr>
+              <tr><td><button class="link" data-go="images">Site Images</button></td><td>Logo, hero image, feature icons, badges, screenshots, and the “Why Choose Us” image. Each image shows where it appears.</td></tr>
+              <tr><td><button class="link" data-go="settings">Demo &amp; Contact</button></td><td>WhatsApp number and message for the Quick Demo button, phone number, email, hero heading, and stats (Partners/Projects/Clients).</td></tr>
+              <tr><td><button class="link" data-go="messages">Messages</button></td><td>Review saved support messages; new demo requests arrive via WhatsApp.</td></tr>
+              <tr><td><button class="link" data-go="security">Security &amp; Backup</button></td><td>Change the admin password and back up or restore website data.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- PRODUCTS -->
+      <section class="view" id="view-products" hidden>
+        <div class="help"><b>What changes here:</b> The pricing section cards on the website. Add, edit, or delete them. <br>
+          <b>Link:</b> Each product can have a link; clicking the plan button redirects to that page. If left empty, it opens the WhatsApp Quick Demo link.</div>
+        <div class="bar-actions">
+          <button class="btn btn-primary" id="addProduct"><i class="fa-solid fa-plus"></i> Add new product</button>
+        </div>
+        <div class="plist" id="productList"></div>
+      </section>
+
+      <!-- IMAGES -->
+      <section class="view" id="view-images" hidden>
+        <div class="help"><b>What changes here:</b> Every image on the website. Each card shows exactly where that image appears on the site.<br>
+          <b>How to edit:</b> Click “Upload” and choose your image, or paste a URL below. Clicking “Reset” restores the original image. The plan card image is edited under <u>Products</u>.</div>
+        <div class="igrid" id="imageGrid"></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="view" id="view-settings" hidden>
+        <div class="help"><b>What changes here:</b> The Quick Demo button, contact details, hero text, and numbers. Everything is explained alongside each field so you know where it appears on the website.</div>
+        <form class="panel" id="settingsForm"></form>
+      </section>
+
+      <!-- MESSAGES -->
+      <section class="view" id="view-messages" hidden>
+        <div class="help"><b>What appears here:</b> You can manage previously saved support messages. New demo requests open via WhatsApp.</div>
+        <div class="bar-actions">
+          <button class="btn btn-ghost" id="markAll"><i class="fa-solid fa-check-double"></i> Mark all as read</button>
+          <button class="btn btn-danger-ghost" id="clearMsgs"><i class="fa-solid fa-trash"></i> Delete all</button>
+        </div>
+        <div class="mlist" id="msgList"></div>
+      </section>
+
+      <!-- SECURITY -->
+      <section class="view" id="view-security" hidden>
+        <div class="help"><b>What changes here:</b> Manage the admin password on the server and back up website data.</div>
+        <form class="panel" id="passForm">
+          <h2>Change admin password</h2>
+          <label>Current password<input type="password" id="pCur" autocomplete="current-password" required></label>
+          <label>New password <small>(at least 6 characters)</small><input type="password" id="pNew" autocomplete="new-password" minlength="6" required></label>
+          <label>Confirm new password<input type="password" id="pNew2" autocomplete="new-password" required></label>
+          <p class="err" id="passErr" hidden></p>
+          <div><button class="btn btn-primary" type="submit"><i class="fa-solid fa-key"></i> Update password</button></div>
+        </form>
+        <div class="panel">
+          <h2>Backup &amp; restore</h2>
+          <p class="muted">All data (products, images, settings, messages) is downloaded into a file. After a new computer or browser reset, you can restore it using the “Restore” option. It is good practice to take a backup once a week.</p>
+          <div class="bar-actions">
+            <button class="btn btn-primary" id="exportBtn"><i class="fa-solid fa-download"></i> Download backup</button>
+            <label class="btn btn-ghost" for="importFile"><i class="fa-solid fa-upload"></i> Restore from file</label>
+            <input type="file" id="importFile" accept="application/json,.json" hidden>
+            <button class="btn btn-danger-ghost" id="resetAll"><i class="fa-solid fa-rotate-left"></i> Reset everything</button>
+          </div>
+        </div>
+        <div class="note-box"><i class="fa-solid fa-circle-info"></i>
+          <div>Admin login is verified on the server. The password is not stored in the browser. Run the live site on HTTPS with a persistent disk-backed Node.js host. Do not forget to keep a separate backup of the website data.</div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ============ PRODUCT EDITOR ============ -->
+<dialog class="dlg" id="pDialog">
+  <form id="pForm" novalidate>
+    <div class="dlg-head">
+      <h2 id="pDlgTitle">Add product</h2>
+      <button type="button" class="x" data-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="dlg-body">
+      <div class="grid2">
+        <label>Product type <small>Which section will it appear in</small>
+          <select id="fType"><option value="user">Per User plan</option><option value="vm">Dedicated VM server</option></select>
+        </label>
+        <label>Card color <small>Color above the card</small>
+          <select id="fColor"><option value="sky">Sky blue</option><option value="ocean">Ocean blue</option><option value="midnight">Midnight navy</option><option value="sun">Neon pink</option></select>
+        </label>
+      </div>
+      <label>Product name <small>Card title</small><input id="fName" required maxlength="60" placeholder="e.g. BOC Premium"></label>
+      <div class="grid2">
+        <label>Price <small>Displayed exactly as written</small><input id="fPrice" required maxlength="30" placeholder="₹ 1,250.00"></label>
+        <label>Text below the price<input id="fPeriod" maxlength="50" placeholder="Per Month Per User"></label>
+      </div>
+      <label>Badge <small>Optional. Small tag above the card, e.g. Most Popular</small><input id="fBadge" maxlength="30"></label>
+
+      <div class="imgfield">
+        <div class="thumb"><img id="fImgPrev" alt=""><span id="fImgNone">No image</span></div>
+        <div class="imgfield-ctl">
+          <b>Product image <small>Shown in the circular icon on the card</small></b>
+          <div class="bar-actions tight">
+            <label class="btn btn-ghost sm" for="fImgFile"><i class="fa-solid fa-upload"></i> Upload</label>
+            <input type="file" id="fImgFile" accept="image/*" hidden>
+            <button type="button" class="btn btn-danger-ghost sm" id="fImgClear">Remove</button>
+          </div>
+          <input id="fImgUrl" placeholder="or paste an image URL (https://...)">
+        </div>
+      </div>
+
+      <label>Highlight line <small>Optional. Blue chip, e.g. 2 Core CPU, 4 GB RAM, 80 GB SSD</small><input id="fHighlight" maxlength="80"></label>
+      <label>Features <small>One feature per line. A check mark appears for each line</small><textarea id="fFeatures" rows="6" placeholder="HTML5- WebAccess&#10;RDP- Access"></textarea></label>
+      <div class="grid2">
+        <label>Users line <small>Optional. Green chip, e.g. Minimum 2 Users</small><input id="fUsers" maxlength="50"></label>
+        <label>Small note <small>Optional. Orange small text</small><input id="fNote" maxlength="80" placeholder="Price Applicable Only On Yearly Subscription"></label>
+      </div>
+      <div class="grid2">
+        <label>Button text<input id="fBtn" maxlength="30" placeholder="Select plan"></label>
+        <label>Product link <small>Clicking the button redirects here</small><input id="fLink" placeholder="https://..."></label>
+      </div>
+      <label class="check"><input type="checkbox" id="fVisible" checked> Show on the website (if unchecked, it will stay hidden rather than being deleted)</label>
+      <p class="err" id="pErr" hidden></p>
+    </div>
+    <div class="dlg-foot">
+      <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+      <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save product</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- ============ CONFIRM ============ -->
+<dialog class="dlg dlg-sm" id="cDialog">
+  <div class="dlg-body">
+    <h2 id="cTitle">Are you sure?</h2>
+    <p id="cText" class="muted"></p>
+  </div>
+  <div class="dlg-foot">
+    <button type="button" class="btn btn-ghost" id="cNo">Cancel</button>
+    <button type="button" class="btn btn-danger" id="cYes">Yes, continue</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/store.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

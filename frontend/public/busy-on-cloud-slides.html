@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      pointer-events: none;
+      padding: 40px;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    /* Gradient backgrounds for each slide */
+    .bg-1 { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0ea5e9 100%); }
+    .bg-2 { background: linear-gradient(135deg, #0c1a3a 0%, #1a365d 50%, #2563eb 100%); }
+    .bg-3 { background: linear-gradient(135deg, #0f172a 0%, #064e3b 50%, #10b981 100%); }
+    .bg-4 { background: linear-gradient(135deg, #1e1b4b 0%, #3730a3 50%, #6366f1 100%); }
+    .bg-5 { background: linear-gradient(135deg, #0f172a 0%, #7c2d12 50%, #f97316 100%); }
+    .bg-6 { background: linear-gradient(135deg, #0c4a6e 0%, #0284c7 50%, #38bdf8 100%); }
+    .bg-7 { background: linear-gradient(135deg, #064e3b 0%, #059669 50%, #34d399 100%); }
+    .bg-8 { background: linear-gradient(135deg, #312e81 0%, #4f46e5 50%, #818cf8 100%); }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      animation: float 6s ease-in-out infinite;
+    }
+    .particle:nth-child(1) { width: 100px; height: 100px; top: 10%; left: 10%; animation-delay: 0s; }
+    .particle:nth-child(2) { width: 60px; height: 60px; top: 70%; left: 80%; animation-delay: 2s; }
+    .particle:nth-child(3) { width: 80px; height: 80px; top: 30%; left: 70%; animation-delay: 4s; }
+    .particle:nth-child(4) { width: 40px; height: 40px; top: 80%; left: 20%; animation-delay: 1s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(14,165,233,0.3); }
+      50% { box-shadow: 0 0 40px rgba(14,165,233,0.6); }
+    }
+
+    .slide.active .anim-up { animation: fadeInUp 0.8s ease forwards; }
+    .slide.active .anim-left { animation: fadeInLeft 0.8s ease forwards; }
+    .slide.active .anim-scale { animation: scaleIn 0.8s ease forwards; }
+    .slide.active .delay-1 { animation-delay: 0.2s; opacity: 0; }
+    .slide.active .delay-2 { animation-delay: 0.4s; opacity: 0; }
+    .slide.active .delay-3 { animation-delay: 0.6s; opacity: 0; }
+    .slide.active .delay-4 { animation-delay: 0.8s; opacity: 0; }
+    .slide.active .delay-5 { animation-delay: 1.0s; opacity: 0; }
+    .slide.active .delay-6 { animation-delay: 1.2s; opacity: 0; }
+
+    /* Progress bar */
+    .progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #0ea5e9, #38bdf8, #7dd3fc);
+      transition: width 0.5s ease;
+      z-index: 100;
+    }
+
+    /* Navigation dots */
+    .nav-dots {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    .nav-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nav-dot.active {
+      background: #0ea5e9;
+      transform: scale(1.3);
+      box-shadow: 0 0 10px rgba(14,165,233,0.5);
+    }
+
+    /* Slide counter */
+    .slide-counter {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      color: rgba(255,255,255,0.5);
+      font-size: 14px;
+      z-index: 100;
+    }
+
+    /* Auto-play indicator */
+    .auto-indicator {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.5);
+      font-size: 12px;
+      z-index: 100;
+      cursor: pointer;
+    }
+
+    .auto-indicator .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      animation: blink 1.5s ease infinite;
+    }
+
+    .auto-indicator.paused .dot {
+      background: #f97316;
+      animation: none;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Feature card styling */
+    .feature-card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 24px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    /* Plan card */
+    .plan-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 28px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .plan-card.popular {
+      border-color: #f59e0b;
+      box-shadow: 0 0 30px rgba(245,158,11,0.2);
+    }
+    .plan-card.popular::before {
+      content: '⭐ Most Popular';
+      position: absolute;
+      top: 12px;
+      right: -30px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #000;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 40px;
+      transform: rotate(45deg);
+    }
+
+    /* Icon circle */
+    .icon-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    /* Glass panel */
+    .glass {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(14,165,233,0.2);
+      border: 1px solid rgba(14,165,233,0.4);
+      color: #7dd3fc;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 14px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<div id="slideshow" style="width:100%; height:700px; position:relative; overflow:hidden;">
+
+  <!-- Floating Particles (shared) -->
+  <div style="position:fixed;inset:0;pointer-events:none;z-index:1;">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- ========== SLIDE 1: Title ========== -->
+  <div class="slide bg-1 active" data-slide="0">
+    <div class="text-center" style="z-index:10;">
+      <div class="anim-scale" style="margin-bottom:24px;">
+        <span style="font-size:64px;">☁️</span>
+      </div>
+      <div class="tag anim-up delay-1">BUSY Accounting on Cloud</div>
+      <h1 class="text-white anim-up delay-2" style="font-size:clamp(36px,5vw,64px); font-weight:900; line-height:1.1; margin-top:20px;">
+        Busy On Cloud
+      </h1>
+      <p class="anim-up delay-3" style="color:rgba(255,255,255,0.7); font-size:clamp(16px,2vw,22px); max-width:600px; margin:16px auto 0;">
+        Run BUSY Accounting Software anytime, anywhere, on any device — with security, stability & reliability.
+      </p>
+      <div class="anim-up delay-4" style="margin-top:32px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+        <div style="background:rgba(255,255,255,0.1); border-radius:12px; padding:12px 24px; color:white;">
+          <div style="font-size:28px; font-weight:800;">3000+</div>
+          <div style="font-size:12px; color:rgba(255,255,255,0.6);">Happy Clients</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.1); border-radius:12px; padding:12px 24px; color:white;">
+          <div style="font-size:28px; font-weight:800;">150+</div>
+          <div style="font-size:12px; color:rgba(255,255,255,0.6);">Projects</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.1); border-radius:12px; padding:12px 24px; color:white;">
+          <div style="font-size:28px; font-weight:800;">20+</div>
+          <div style="font-size:12px; color:rgba(255,255,255,0.6);">Partners</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 2: Problem & Solution ========== -->
+  <div class="slide bg-2" data-slide="1">
+    <div style="z-index:10; max-width:900px; width:100%;">
+      <div class="tag anim-up">The Challenge</div>
+      <h2 class="text-white anim-up delay-1" style="font-size:clamp(28px,4vw,48px); font-weight:800; margin-top:16px; line-height:1.2;">
+        Why Move BUSY to Cloud?
+      </h2>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:20px; margin-top:32px;">
+        <div class="feature-card anim-left delay-2">
+          <div class="icon-circle" style="background:rgba(239,68,68,0.2); color:#fca5a5;">🔒</div>
+          <h3 class="text-white" style="font-weight:700; margin-top:12px;">Data Security Risk</h3>
+          <p style="color:rgba(255,255,255,0.6); font-size:14px; margin-top:8px;">Local systems vulnerable to hardware failure, theft & virus attacks</p>
+        </div>
+        <div class="feature-card anim-left delay-3">
+          <div class="icon-circle" style="background:rgba(251,191,36,0.2); color:#fde68a;">📍</div>
+          <h3 class="text-white" style="font-weight:700; margin-top:12px;">Location Dependent</h3>
+          <p style="color:rgba(255,255,255,0.6); font-size:14px; margin-top:8px;">Can't access accounts from outside office or on mobile devices</p>
+        </div>
+        <div class="feature-card anim-left delay-4">
+          <div class="icon-circle" style="background:rgba(34,197,94,0.2); color:#86efac;">✅</div>
+          <h3 class="text-white" style="font-weight:700; margin-top:12px;">The Solution</h3>
+          <p style="color:rgba(255,255,255,0.6); font-size:14px; margin-top:8px;">Busy On Cloud — secure, anytime access with enterprise-grade hosting</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 3: Key Features ========== -->
+  <div class="slide bg-3" data-slide="2">
+    <div style="z-index:10; max-width:950px; width:100%;">
+      <div class="tag anim-up">Core Features</div>
+      <h2 class="text-white anim-up delay-1" style="font-size:clamp(28px,4vw,44px); font-weight:800; margin-top:16px;">
+        Everything BUSY Needs, Up in the Cloud
+      </h2>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-top:28px;">
+        <div class="feature-card anim-scale delay-1" style="text-align:center;">
+          <div style="font-size:36px;">⚡</div>
+          <h3 class="text-white" style="font-weight:700; font-size:16px; margin-top:10px;">Speed & Reliability</h3>
+          <p style="color:rgba(255,255,255,0.6); font-size:13px; margin-top:6px;">High-performance data centers with redundant connectivity</p>
+        </div>
+        <div class="feature-card anim-scale delay-2" style="text-align:center;">
+          <div style="font-size:36px;">🛡️</div>
+          <h3 class="text-white" style="font-weight:700; font-size:16px; margin-top:10px;">Secured Data</h3>
+          <p style="color:rgba(255,255,255,0.6); font-size:13px; margin-top:6px;">Protected environment with virus protection & access control</p>
+        </div>
+        <div class="feature-card anim-scale delay-3" style="text-align:center;">
+          <div style="font-size:36px;">💰</div>
+          <h3 class="text-white" style="font-weight:700; font-size:16px; margin-top:10px;">Economical</h3>
+          <p style="color:rgba(255,255,255,0.6); font-size:13px; margin-top:6px;">Per-user or dedicated VM plans to fit your budget</p>
+        </div>
+        <div class="feature-card anim-scale delay-4" style="text-align:center;">
+          <div style="font-size:36px;">💾</div>
+          <h3 class="text-white" style="font-weight:700; font-size:16px; margin-top:10px;">Local Backup</h3>
+          <p style="color:rgba(255,255,255,0.6); font-size:13px; margin-top:6px;">Scheduled backups keep recoverable copy of your data</p>
+        </div>
+        <div class="feature-card anim-scale delay-5" style="text-align:center;">
+          <div style="font-size:36px;">💻</div>
+          <h3 class="text-white" style="font-weight:700; font-size:16px; margin-top:10px;">Any Device</h3>
+          <p style="color:rgba(255,255,255,0.6); font-size:13px; margin-top:6px;">Browser or secured RDP access from anywhere</p>
+        </div>
+        <div class="feature-card anim-scale delay-6" style="text-align:center;">
+          <div style="font-size:36px;">👥</div>
+          <h3 class="text-white" style="font-weight:700; font-size:16px; margin-top:10px;">Multi-User</h3>
+          <p style="color:rgba(255,255,255,0.6); font-size:13px; margin-top:6px;">Multiple users can work in BUSY online together</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 4: Two Editions ========== -->
+  <div class="slide bg-4" data-slide="3">
+    <div style="z-index:10; max-width:900px; width:100%;">
+      <div class="tag anim-up">Access Methods</div>
+      <h2 class="text-white anim-up delay-1" style="font-size:clamp(28px,4vw,44px); font-weight:800; margin-top:16px;">
+        Two Ways to Access BUSY
+      </h2>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:24px; margin-top:32px;">
+        <div class="glass anim-left delay-2" style="padding:32px; text-align:center;">
+          <div style="font-size:48px; margin-bottom:16px;">🌐</div>
+          <h3 class="text-white" style="font-size:24px; font-weight:800;">Browser Edition</h3>
+          <p style="color:#a5b4fc; font-size:14px; margin-top:4px;">HTML5 Web Access</p>
+          <div style="margin-top:20px; text-align:left;">
+            <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.7); margin:8px 0; font-size:14px;">
+              <span style="color:#34d399;">✓</span> No installation needed
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.7); margin:8px 0; font-size:14px;">
+              <span style="color:#34d399;">✓</span> Works on any browser
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.7); margin:8px 0; font-size:14px;">
+              <span style="color:#34d399;">✓</span> Mobile & tablet friendly
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.7); margin:8px 0; font-size:14px;">
+              <span style="color:#34d399;">✓</span> Instant access from anywhere
+            </div>
+          </div>
+        </div>
+        <div class="glass anim-left delay-3" style="padding:32px; text-align:center;">
+          <div style="font-size:48px; margin-bottom:16px;">🖥️</div>
+          <h3 class="text-white" style="font-size:24px; font-weight:800;">RDP Edition</h3>
+          <p style="color:#a5b4fc; font-size:14px; margin-top:4px;">Remote Desktop Access</p>
+          <div style="margin-top:20px; text-align:left;">
+            <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.7); margin:8px 0; font-size:14px;">
+              <span style="color:#34d399;">✓</span> Full desktop experience
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.7); margin:8px 0; font-size:14px;">
+              <span style="color:#34d399;">✓</span> Local printer support
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.7); margin:8px 0; font-size:14px;">
+              <span style="color:#34d399;">✓</span> Native BUSY feel
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.7); margin:8px 0; font-size:14px;">
+              <span style="color:#34d399;">✓</span> Windows Server 2016
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 5: Supported Versions ========== -->
+  <div class="slide bg-5" data-slide="4">
+    <div style="z-index:10; max-width:900px; width:100%;">
+      <div class="tag anim-up">Compatibility</div>
+      <h2 class="text-white anim-up delay-1" style="font-size:clamp(28px,4vw,44px); font-weight:800; margin-top:16px;">
+        Supports All BUSY Editions
+      </h2>
+      <div style="display:flex; flex-wrap:wrap; gap:16px; justify-content:center; margin-top:32px;">
+        <div class="glass anim-scale delay-2" style="padding:20px 28px; text-align:center; min-width:140px;">
+          <div style="font-size:32px;">📘</div>
+          <div class="text-white" style="font-weight:700; margin-top:8px;">BUSY Basic</div>
+        </div>
+        <div class="glass anim-scale delay-3" style="padding:20px 28px; text-align:center; min-width:140px;">
+          <div style="font-size:32px;">📗</div>
+          <div class="text-white" style="font-weight:700; margin-top:8px;">BUSY Standard</div>
+        </div>
+        <div class="glass anim-scale delay-4" style="padding:20px 28px; text-align:center; min-width:140px;">
+          <div style="font-size:32px;">📕</div>
+          <div class="text-white" style="font-weight:700; margin-top:8px;">BUSY Enterprise</div>
+        </div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:24px;">
+        <span class="anim-up delay-3" style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8); padding:8px 18px; border-radius:20px; font-size:13px; font-weight:600;">👤 Single User</span>
+        <span class="anim-up delay-3" style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8); padding:8px 18px; border-radius:20px; font-size:13px; font-weight:600;">👥 Dual User</span>
+        <span class="anim-up delay-4" style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8); padding:8px 18px; border-radius:20px; font-size:13px; font-weight:600;">👨‍👩‍👧‍👦 Multi User</span>
+        <span class="anim-up delay-4" style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8); padding:8px 18px; border-radius:20px; font-size:13px; font-weight:600;">🗄️ MS Access DB</span>
+        <span class="anim-up delay-5" style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8); padding:8px 18px; border-radius:20px; font-size:13px; font-weight:600;">🗃️ SQL Server DB</span>
+        <span class="anim-up delay-5" style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8); padding:8px 18px; border-radius:20px; font-size:13px; font-weight:600;">🔐 Safe & Secured</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 6: Per-User Pricing ========== -->
+  <div class="slide bg-6" data-slide="5">
+    <div style="z-index:10; max-width:1000px; width:100%;">
+      <div class="tag anim-up">Per-User Plans</div>
+      <h2 class="text-white anim-up delay-1" style="font-size:clamp(26px,3.5vw,40px); font-weight:800; margin-top:16px;">
+        Affordable Per-User Cloud Plans
+      </h2>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:20px; margin-top:28px;">
+        <!-- BOC Basic -->
+        <div class="plan-card anim-scale delay-2">
+          <h3 class="text-white" style="font-size:20px; font-weight:800;">BOC Basic</h3>
+          <p style="color:rgba(255,255,255,0.5); font-size:13px;">Single User</p>
+          <div style="margin:16px 0;">
+            <span class="text-white" style="font-size:36px; font-weight:900;">₹1,250</span>
+            <span style="color:rgba(255,255,255,0.5); font-size:14px;">/month/user</span>
+          </div>
+          <div style="text-align:left; margin-top:12px;">
+            <div style="color:rgba(255,255,255,0.7); font-size:13px; padding:4px 0;">✓ HTML5 Web Access</div>
+            <div style="color:rgba(255,255,255,0.7); font-size:13px; padding:4px 0;">✓ RDP Access</div>
+            <div style="color:rgba(255,255,255,0.7); font-size:13px; padding:4px 0;">✓ Unlimited Bandwidth</div>
+            <div style="color:rgba(255,255,255,0.7); font-size:13px; padding:4px 0;">✓ Scheduled Backups</div>
+          </div>
+        </div>
+        <!-- BOC Standard -->
+        <div class="plan-card anim-scale delay-3">
+          <h3 class="text-white" style="font-size:20px; font-weight:800;">BOC Standard</h3>
+          <p style="color:rgba(255,255,255,0.5); font-size:13px;">Minimum 2 Users</p>
+          <div style="margin:16px 0;">
+            <span class="text-white" style="font-size:36px; font-weight:900;">₹1,000</span>
+            <span style="color:rgba(255,255,255,0.5); font-size:14px;">/month/user</span>
+          </div>
+          <div style="text-align:left; margin-top:12px;">
+            <div style="color:rgba(255,255,255,0.7); font-size:13px; padding:4px 0;">✓ HTML5 Web Access</div>
+            <div style="color:rgba(255,255,255,0.7); font-size:13px; padding:4px 0;">✓ RDP Access</div>
+            <div style="color:rgba(255,255,255,0.7); font-size:13px; padding:4px 0;">✓ Unlimited Bandwidth</div>
+            <div style="color:rgba(255,255,255,0.7); font-size:13px; padding:4px 0;">✓ Scheduled Backups</div>
+          </div>
+        </div>
+        <!-- BOC Business (Popular) -->
+        <div class="plan-card popular anim-scale delay-4">
+          <h3 class="text-white" style="font-size:20px; font-weight:800;">BOC Business</h3>
+          <p style="color:rgba(255,255,255,0.5); font-size:13px;">Minimum 4 Users</p>
+          <div style="margin:16px 0;">
+            <span class="text-white" style="font-size:36px; font-weight:900;">₹850</span>
+            <span style="color:rgba(255,255,255,0.5); font-size:14px;">/month/user</span>
+          </div>
+          <div style="text-align:left; margin-top:12px;">
+            <div style="color:rgba(255,255,255,0.7); font-size:13px; padding:4px 0;">✓ HTML5 Web Access</div>
+            <div style="color:rgba(255,255,255,0.7); font-size:13px; padding:4px 0;">✓ RDP Access</div>
+            <div style="color:rgba(255,255,255,0.7); font-size:13px; padding:4px 0;">✓ Unlimited Bandwidth</div>
+            <div style="color:rgba(255,255,255,0.7); font-size:13px; padding:4px 0;">✓ Scheduled Backups</div>
+          </div>
+        </div>
+      </div>
+      <p class="anim-up delay-5" style="color:rgba(255,255,255,0.4); font-size:12px; text-align:center; margin-top:16px;">
+        * Price applicable only on yearly subscription
+      </p>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 7: VM Plans ========== -->
+  <div class="slide bg-7" data-slide="6">
+    <div style="z-index:10; max-width:1000px; width:100%;">
+      <div class="tag anim-up">Dedicated Servers</div>
+      <h2 class="text-white anim-up delay-1" style="font-size:clamp(26px,3.5vw,40px); font-weight:800; margin-top:16px;">
+        BUSY Ready VM Servers
+      </h2>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:20px; margin-top:28px;">
+        <div class="plan-card anim-scale delay-2">
+          <div style="font-size:36px;">🖥️</div>
+          <h3 class="text-white" style="font-size:18px; font-weight:800; margin-top:8px;">VM Economy</h3>
+          <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:8px; margin:12px 0; font-size:12px; color:#86efac;">
+            2 Core CPU • 4 GB RAM • 80 GB SSD
+          </div>
+          <div style="margin:12px 0;">
+            <span class="text-white" style="font-size:32px; font-weight:900;">₹4,000</span>
+            <span style="color:rgba(255,255,255,0.5); font-size:12px;">/month</span>
+          </div>
+          <p style="color:rgba(255,255,255,0.5); font-size:12px;">Up to 5 users • 500 GB Bandwidth</p>
+        </div>
+        <div class="plan-card anim-scale delay-3" style="border-color:rgba(251,191,36,0.4);">
+          <div style="font-size:36px;">⚡</div>
+          <h3 class="text-white" style="font-size:18px; font-weight:800; margin-top:8px;">VM Business</h3>
+          <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:8px; margin:12px 0; font-size:12px; color:#fde68a;">
+            4 Core CPU • 6 GB RAM • 120 GB SSD
+          </div>
+          <div style="margin:12px 0;">
+            <span class="text-white" style="font-size:32px; font-weight:900;">₹7,500</span>
+            <span style="color:rgba(255,255,255,0.5); font-size:12px;">/month</span>
+          </div>
+          <p style="color:rgba(255,255,255,0.5); font-size:12px;">Up to 10 users • 1.5 TB Bandwidth</p>
+        </div>
+        <div class="plan-card anim-scale delay-4">
+          <div style="font-size:36px;">🚀</div>
+          <h3 class="text-white" style="font-size:18px; font-weight:800; margin-top:8px;">VM Enterprise</h3>
+          <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:8px; margin:12px 0; font-size:12px; color:#c4b5fd;">
+            4 Core CPU • 8 GB RAM • 150 GB SSD
+          </div>
+          <div style="margin:12px 0;">
+            <span class="text-white" style="font-size:32px; font-weight:900;">₹14,000</span>
+            <span style="color:rgba(255,255,255,0.5); font-size:12px;">/month</span>
+          </div>
+          <p style="color:rgba(255,255,255,0.5); font-size:12px;">Up to 20 users • 2 TB Bandwidth</p>
+        </div>
+      </div>
+      <p class="anim-up delay-5" style="color:rgba(255,255,255,0.4); font-size:12px; text-align:center; margin-top:16px;">
+        All VM plans billed yearly • Windows Server 2016 included
+      </p>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 8: Contact / CTA ========== -->
+  <div class="slide bg-8" data-slide="7">
+    <div style="z-index:10; max-width:700px; width:100%; text-align:center;">
+      <div class="anim-scale" style="font-size:64px; margin-bottom:16px;">🚀</div>
+      <div class="tag anim-up delay-1">Get Started Today</div>
+      <h2 class="text-white anim-up delay-2" style="font-size:clamp(30px,4.5vw,52px); font-weight:900; margin-top:20px; line-height:1.1;">
+        Ready to Move BUSY<br>to the Cloud?
+      </h2>
+      <p class="anim-up delay-3" style="color:rgba(255,255,255,0.7); font-size:18px; margin-top:16px;">
+        Get a personalized demo on WhatsApp in minutes!
+      </p>
+      <div class="glass anim-scale delay-4" style="padding:28px; margin-top:32px;">
+        <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center;">
+          <div style="display:flex; align-items:center; gap:10px; color:rgba(255,255,255,0.8);">
+            <span style="font-size:24px;">📞</span>
+            <div style="text-align:left;">
+              <div style="font-size:11px; color:rgba(255,255,255,0.5);">Call Us</div>
+              <div style="font-weight:700;">+91 99999 99999</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; color:rgba(255,255,255,0.8);">
+            <span style="font-size:24px;">📧</span>
+            <div style="text-align:left;">
+              <div style="font-size:11px; color:rgba(255,255,255,0.5);">Email</div>
+              <div style="font-weight:700;">support@busyoncloud.com</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; color:rgba(255,255,255,0.8);">
+            <span style="font-size:24px;">🕐</span>
+            <div style="text-align:left;">
+              <div style="font-size:11px; color:rgba(255,255,255,0.5);">Support</div>
+              <div style="font-weight:700;">24x7 Backend Team</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="anim-up delay-5" style="color:rgba(255,255,255,0.4); margin-top:24px; font-size:14px;">
+        Busy On Cloud — Your Accounting, Always Available ☁️
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Navigation dots -->
+<div class="nav-dots" id="navDots"></div>
+
+<!-- Slide counter -->
+<div class="slide-counter" id="slideCounter">1 / 8</div>
+
+<!-- Auto-play indicator -->
+<div class="auto-indicator" id="autoIndicator" title="Click to pause/resume">
+  <div class="dot"></div>
+  <span>Auto</span>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+  let currentSlide = 0;
+  let autoPlay = true;
+  let autoInterval;
+  const AUTO_DELAY = 5000; // 5 seconds per slide
+
+  // Create navigation dots
+  const navDots = document.getElementById('navDots');
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goToSlide(i));
+    navDots.appendChild(dot);
+  }
+
+  function goToSlide(index) {
+    slides[currentSlide].classList.remove('active');
+    navDots.children[currentSlide].classList.remove('active');
+
+    currentSlide = index;
+
+    slides[currentSlide].classList.add('active');
+    navDots.children[currentSlide].classList.add('active');
+
+    // Update progress bar
+    document.getElementById('progressBar').style.width =
+      ((currentSlide + 1) / totalSlides * 100) + '%';
+
+    // Update counter
+    document.getElementById('slideCounter').textContent =
+      (currentSlide + 1) + ' / ' + totalSlides;
+
+    // Reset auto-play timer
+    if (autoPlay) {
+      clearInterval(autoInterval);
+      autoInterval = setInterval(nextSlide, AUTO_DELAY);
+    }
+  }
+
+  function nextSlide() {
+    goToSlide((currentSlide + 1) % totalSlides);
+  }
+
+  function prevSlide() {
+    goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
+  }
+
+  // Auto-play toggle
+  const autoIndicator = document.getElementById('autoIndicator');
+  autoIndicator.addEventListener('click', () => {
+    autoPlay = !autoPlay;
+    autoIndicator.classList.toggle('paused');
+    autoIndicator.querySelector('span').textContent = autoPlay ? 'Auto' : 'Paused';
+    if (autoPlay) {
+      autoInterval = setInterval(nextSlide, AUTO_DELAY);
+    } else {
+      clearInterval(autoInterval);
+    }
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+  });
+
+  // Touch support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? nextSlide() : prevSlide();
+    }
+  });
+
+  // Start auto-play
+  autoInterval = setInterval(nextSlide, AUTO_DELAY);
+
+  // Initial progress
+  document.getElementById('progressBar').style.width = (1 / totalSlides * 100) + '%';
+</script>
+
+</body>
+</html>
