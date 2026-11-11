@@ -8,11 +8,12 @@
   <link rel="icon" href="assets/img/Busy-on-cloud-micro-e1629081008400.png" data-favicon>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Unbounded:wght@500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Unbounded:wght@500;600;700&family=Plus+Jakarta+Sans:wght@700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,800;1,9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="js/theme.js"></script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/theme-sky.css">
+  <link rel="stylesheet" href="css/theme-ledger.css">
 </head>
 <body>
 
@@ -32,6 +33,10 @@
       <a href="#pricing">Pricing</a>
       <a href="#demo">Contact</a>
       <a class="btn btn-glow nav-ticket js-demo" href="#" target="_blank" rel="noopener">Raise Ticket</a>
+      <div class="nav-foot" aria-label="Contact">
+        <span><i class="fa-solid fa-phone"></i> <b data-set="phone">+91 99999 99999</b></span>
+        <span><i class="fa-solid fa-envelope"></i> <b data-set="email">support@busyoncloud.com</b></span>
+      </div>
     </nav>
     <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
       <span></span><span></span><span></span>
@@ -63,9 +68,22 @@
     </div>
     <div class="hero-art">
       <img src="assets/img/busyonclouds.png" data-img="hero" alt="BUSY accounting on desktop, tablet and mobile">
+      <svg class="stamp" viewBox="0 0 200 200" aria-hidden="true">
+        <defs><path id="stampRing" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/></defs>
+        <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="3"/>
+        <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 4"/>
+        <text class="stamp-ring"><textPath href="#stampRing" startOffset="0">SECURED &#9679; BACKED UP &#9679; 24x7 MONITORED &#9679; BUSY READY &#9679;</textPath></text>
+        <text x="100" y="96" text-anchor="middle" class="stamp-big">BUSY</text>
+        <text x="100" y="120" text-anchor="middle" class="stamp-sm">ON CLOUD</text>
+      </svg>
     </div>
   </div>
 </section>
+
+<!-- ============ TICKER (admin: Announcement ticker) ============ -->
+<div class="ticker" id="ticker" aria-label="Highlights" hidden>
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
 
 <!-- ============ FEATURES ============ -->
 <section class="section section-grid" id="features">
@@ -249,9 +267,35 @@
 
 </main>
 
-<footer class="site-footer">
-  <div class="wrap foot">
-    <p>&copy; <span id="year"></span> <span data-set="brandName">Busy On Cloud</span>. All rights reserved.</p>
+<footer class="site-footer" id="footer">
+  <div class="foot-scene" id="footScene" aria-hidden="true"></div>
+  <div class="foot-body">
+    <div class="wrap foot-grid">
+      <div class="foot-brand">
+        <a href="#home" class="foot-logo" aria-label="Back to top"><img src="assets/img/Busy-on-cloud-micro-e1629081008400.png" data-img="logo" alt="Busy On Cloud"></a>
+        <p class="foot-tag" data-set="footerTagline">Your BUSY data, safe in the cloud and open from anywhere.</p>
+        <a class="btn btn-glow js-demo" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> <span data-set="demoButtonText">Quick Demo</span></a>
+      </div>
+      <nav class="foot-col" aria-label="Footer">
+        <h3>Explore</h3>
+        <a href="#features">Features</a>
+        <a href="#why">Why Us</a>
+        <a href="#preview">Interface</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#demo">Contact</a>
+      </nav>
+      <div class="foot-col">
+        <h3>Reach us</h3>
+        <span><i class="fa-solid fa-phone"></i> <b data-set="phone">+91 99999 99999</b></span>
+        <span><i class="fa-solid fa-envelope"></i> <b data-set="email">support@busyoncloud.com</b></span>
+        <span><i class="fa-solid fa-clock"></i> Monitored 24x7</span>
+      </div>
+    </div>
+    <div class="foot-mark" aria-hidden="true"><span data-set="brandName">Busy On Cloud</span></div>
+    <div class="wrap foot-bottom">
+      <p>&copy; <span id="year"></span> <span data-set="brandName">Busy On Cloud</span>. All rights reserved. <span class="foot-note" data-set="footerNote">Made with care in India.</span></p>
+      <button class="to-top" id="toTop" type="button" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i> Top</button>
+    </div>
   </div>
 </footer>
 

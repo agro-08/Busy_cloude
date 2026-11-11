@@ -1,0 +1,268 @@
+/* ==========================================================
+   theme-ledger.css  -  "Ledger Book" design
+   Sirf tab lagta hai jab admin me Design = Ledger Book ho.
+   BUSY accounting software hai, isliye poori site ek purani
+   khata-book jaisi: ruled paper, ink-blue, rubber stamp red,
+   double-underline totals, punched cards, receipt-style plans.
+   Rounded bubbles / neon glow nahi - flat, printed, hand-made.
+   ========================================================== */
+html[data-theme="ledger"] {
+  --paper: #f3ecdb;
+  --paper2: #ebe2c9;
+  --card: #fffdf6;
+  --ink: #16213a;
+  --ink2: #3a4663;
+  --rule: rgba(52, 110, 96, .2);
+  --red: #c8321f;
+  --green: #1e6b47;
+  --hl: #f7e27d;
+  --hl-soft: #fbf3cf;
+  --deep: #16213a;
+  --muted: #586179;
+  --line: #d6cba9;
+  --ice: #efe6cf;
+  --blue: #1f4fa8;
+  --blue-d: #16398a;
+  --cyan: #c8321f;
+  --head: 'Fraunces', 'Georgia', 'Times New Roman', serif;
+  --body: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+html[data-theme="ledger"] body {
+  counter-reset: folio;
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image: linear-gradient(transparent 31px, var(--rule) 31px 32px);
+  background-size: 100% 32px;
+}
+/* red margin line of the khata, like real ruled paper */
+html[data-theme="ledger"] body::before {
+  content: ""; position: fixed; z-index: 0; top: 0; bottom: 0; left: 64px; width: 2px;
+  background: rgba(200, 50, 31, .38); box-shadow: 5px 0 0 rgba(200, 50, 31, .16); pointer-events: none;
+}
+html[data-theme="ledger"] ::selection { background: var(--hl); color: var(--ink); }
+html[data-theme="ledger"] :focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+html[data-theme="ledger"] h1, html[data-theme="ledger"] h2, html[data-theme="ledger"] h3, html[data-theme="ledger"] h4 { letter-spacing: -.025em; font-variation-settings: 'SOFT' 30, 'WONK' 1; }
+
+/* ---------- buttons: printed labels with hard shadow ---------- */
+html[data-theme="ledger"] .btn { border-radius: 3px; border: 2px solid var(--ink); font: 600 .78rem/1.2 var(--mono); letter-spacing: .09em; text-transform: uppercase; transition: transform .15s, box-shadow .15s, background .15s; }
+html[data-theme="ledger"] .btn-glow { background: var(--ink); color: var(--paper); box-shadow: 4px 4px 0 var(--red); }
+html[data-theme="ledger"] .btn-glow:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--red); filter: none; }
+html[data-theme="ledger"] .btn-glow:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--red); }
+html[data-theme="ledger"] .btn-glass { background: var(--card); color: var(--ink); border-color: var(--ink); box-shadow: 4px 4px 0 var(--ink); backdrop-filter: none; }
+html[data-theme="ledger"] .btn-glass:hover { background: var(--hl); transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+html[data-theme="ledger"] .btn-outline { background: transparent; color: var(--ink); border-color: var(--ink); }
+html[data-theme="ledger"] .btn-outline:hover { background: var(--hl); }
+html[data-theme="ledger"] .btn-lg { padding: 15px 26px; font-size: .82rem; }
+
+/* ---------- header + drawer ---------- */
+html[data-theme="ledger"] .site-header { --menu-bg: repeating-linear-gradient(180deg, transparent 0 35px, rgba(52, 110, 96, .2) 35px 36px), #f3ecdb; --menu-ink: #16213a; --menu-line: rgba(22, 33, 58, .28); --menu-accent: #c8321f;
+  background: rgba(243, 236, 219, .96); border-bottom: 3px double var(--ink); }
+html[data-theme="ledger"] .site-header::after { display: none; }
+html[data-theme="ledger"] .nav a { font: 500 .74rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); border-radius: 2px; }
+html[data-theme="ledger"] .nav a:hover { background: var(--hl); color: var(--ink); }
+html[data-theme="ledger"] .nav .nav-ticket { color: var(--paper); }
+html[data-theme="ledger"] .nav .nav-ticket:hover { background: var(--ink); }
+html[data-theme="ledger"] .burger { background: var(--card); border: 2px solid var(--ink); border-radius: 3px; box-shadow: 3px 3px 0 var(--ink); }
+html[data-theme="ledger"] .burger span { background: var(--ink); left: 11px; right: 11px; }
+html[data-theme="ledger"] .nav-foot b { font-family: var(--mono); font-weight: 500; font-size: .85rem; }
+
+/* ---------- hero ---------- */
+html[data-theme="ledger"] .hero { color: var(--ink); background: none; clip-path: none; padding: 72px 0 120px; }
+html[data-theme="ledger"] .hero::before, html[data-theme="ledger"] .sky { display: none; }
+html[data-theme="ledger"] .hero-brand { filter: none; }
+html[data-theme="ledger"] .pill { background: transparent; color: var(--red); border: 2px solid var(--red); border-radius: 4px; outline: 1px solid var(--red); outline-offset: 3px; padding: 6px 13px; font: 600 .7rem/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; transform: rotate(-2deg); mix-blend-mode: multiply; }
+html[data-theme="ledger"] .pill i { color: var(--red); }
+html[data-theme="ledger"] .hero h1 { display: inline; font-weight: 800; font-size: clamp(2.8rem, 7.4vw, 5.8rem); line-height: 1.02; letter-spacing: -.04em; margin: 26px 0 22px; color: var(--ink); -webkit-text-fill-color: var(--ink);
+  background: none; text-decoration: underline; text-decoration-color: var(--hl); text-decoration-thickness: .2em; text-underline-offset: -.1em; text-decoration-skip-ink: none; }
+html[data-theme="ledger"] .hero-copy { display: flex; flex-direction: column; align-items: flex-start; }
+html[data-theme="ledger"] .hero-copy h1 { margin-top: 28px; }
+html[data-theme="ledger"] .lead { color: var(--ink2); font-size: 1.14rem; border-left: 3px double var(--ink); padding-left: 16px; max-width: 500px; margin-top: 26px; }
+html[data-theme="ledger"] .hero-art { background: var(--card); border: 2px solid var(--ink); padding: 16px; box-shadow: 10px 10px 0 var(--ink); transform: rotate(1.6deg); max-width: 540px; margin-inline: auto; }
+html[data-theme="ledger"] .hero-art::before { inset: auto; top: -17px; left: 50%; width: 120px; height: 32px; margin-left: -60px; border: 0; border-radius: 0; box-shadow: none; transform: rotate(-3deg);
+  background: repeating-linear-gradient(90deg, rgba(247, 226, 125, .9) 0 6px, rgba(247, 226, 125, .78) 6px 12px); clip-path: polygon(3% 0, 97% 0, 100% 25%, 96% 50%, 100% 75%, 97% 100%, 3% 100%, 0 75%, 4% 50%, 0 25%); }
+html[data-theme="ledger"] .hero-art img { filter: none; max-width: 100%; }
+html[data-theme="ledger"] .stamp { display: block; position: absolute; left: -44px; bottom: -44px; width: 132px; height: 132px; color: var(--red); transform: rotate(-14deg); mix-blend-mode: multiply; background: radial-gradient(circle, rgba(255, 253, 246, .92) 0 58%, transparent 59%); border-radius: 50%; }
+html[data-theme="ledger"] .stamp-ring { font: 600 11.5px var(--mono); letter-spacing: 2.2px; fill: currentColor; transform-origin: 100px 100px; animation: stamp-spin 30s linear infinite; }
+html[data-theme="ledger"] .stamp-big { font: 800 27px var(--head); fill: currentColor; letter-spacing: 1px; }
+html[data-theme="ledger"] .stamp-sm { font: 600 10px var(--mono); fill: currentColor; letter-spacing: 3px; }
+@keyframes stamp-spin { to { transform: rotate(360deg); } }
+
+/* ---------- ticker: ink tape ---------- */
+html[data-theme="ledger"] .ticker { background: var(--ink); color: var(--paper); border-block: 3px double var(--paper); box-shadow: 0 8px 0 -2px rgba(22, 22, 40, .25); margin-top: -50px; }
+html[data-theme="ledger"] .tk { font: 500 .78rem/1 var(--mono); letter-spacing: .16em; }
+html[data-theme="ledger"] .tk-dot { background: var(--hl); box-shadow: none; border-radius: 0; width: 8px; height: 8px; }
+
+/* ---------- section heads: folio number + double rule ---------- */
+html[data-theme="ledger"] .section-grid, html[data-theme="ledger"] .section { background: none; }
+html[data-theme="ledger"] .head::before { counter-increment: folio; content: "Folio " counter(folio, decimal-leading-zero); display: block; margin-bottom: 14px; font: 600 .72rem var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--red); }
+html[data-theme="ledger"] .head h2, html[data-theme="ledger"] .why-grid h2 { font-weight: 800; color: var(--ink); font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.08; }
+html[data-theme="ledger"] .head h2::after { content: ""; display: block; width: 110px; height: 7px; margin: 18px auto 0; border-block: 2px solid var(--ink); }
+html[data-theme="ledger"] .head p, html[data-theme="ledger"] .sub { color: var(--muted); }
+
+/* ---------- features: punched entry cards ---------- */
+html[data-theme="ledger"] .feat-cards { counter-reset: ft; }
+html[data-theme="ledger"] .feat { counter-increment: ft; padding: 20px 20px 20px 34px; background: var(--card); border: 2px solid var(--ink); border-radius: 3px; box-shadow: 4px 4px 0 var(--ink); transition: transform .18s, box-shadow .18s, background .18s; }
+html[data-theme="ledger"] .feat::before { left: 0; top: 0; bottom: 0; width: 22px; border-radius: 0; border-right: 1.5px dashed rgba(22, 33, 58, .45); background: radial-gradient(circle at 11px 14px, var(--paper) 0 4px, rgba(22, 33, 58, .55) 4px 5px, transparent 5.5px) 0 0 / 22px 28px; }
+html[data-theme="ledger"] .feat::after { content: "Nº " counter(ft, decimal-leading-zero); position: absolute; top: 8px; right: 12px; font: 500 .66rem var(--mono); letter-spacing: .1em; color: var(--muted); }
+html[data-theme="ledger"] .feat:hover { transform: translate(-3px, -3px); box-shadow: 7px 7px 0 var(--red); background: var(--card); border-color: var(--ink); }
+html[data-theme="ledger"] .feat h3 { font: 700 1.14rem var(--head); color: var(--ink); margin-top: 6px; }
+html[data-theme="ledger"] .feat p { color: var(--ink2); font-size: .92rem; }
+html[data-theme="ledger"] .feat-ico { background: var(--hl); border: 2px solid var(--ink); border-radius: 3px; color: var(--ink); }
+html[data-theme="ledger"] .feat-art img { filter: none; }
+
+/* badges: rubber-stamped tags */
+html[data-theme="ledger"] .badges li { background: var(--card); border: 2px dashed var(--ink); border-radius: 3px; font: 600 .7rem/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink); transition: transform .2s, background .2s; }
+html[data-theme="ledger"] .badges li:nth-child(odd) { transform: rotate(-1.4deg); }
+html[data-theme="ledger"] .badges li:nth-child(even) { transform: rotate(1.1deg); }
+html[data-theme="ledger"] .badges li:hover { transform: rotate(0) translateY(-4px); border-style: solid; background: var(--hl); border-color: var(--ink); }
+html[data-theme="ledger"] .badges i { color: var(--ink); }
+
+/* ---------- why us ---------- */
+html[data-theme="ledger"] .section-mist { background: var(--paper2); border-block: 3px double var(--ink); }
+html[data-theme="ledger"] .acc { gap: 0; border-bottom: 2px solid var(--ink); }
+html[data-theme="ledger"] .acc details { background: transparent; border: 0; border-top: 2px solid var(--ink); border-radius: 0; padding: 0 12px; transition: background .2s; }
+html[data-theme="ledger"] .acc details[open] { background: var(--hl-soft); box-shadow: none; border-color: var(--ink); }
+html[data-theme="ledger"] .acc summary { font: 700 1.12rem var(--head); color: var(--ink); padding: 17px 0; }
+html[data-theme="ledger"] .acc summary::after { border: 2px solid var(--ink); border-radius: 2px; background: var(--card); color: var(--ink); font: 600 17px var(--mono); }
+html[data-theme="ledger"] .acc details[open] summary::after { background: var(--red); color: #fff; border-color: var(--red); }
+html[data-theme="ledger"] .acc details p { color: var(--ink2); }
+html[data-theme="ledger"] .acc a { color: var(--red); font-weight: 600; }
+html[data-theme="ledger"] .why-art img { background: var(--card); padding: 12px 12px 34px; border: 2px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); transform: rotate(-1.6deg); }
+
+html[data-theme="ledger"] .support-grid article { background: var(--card); border: 2px solid var(--ink); border-image: none; border-radius: 3px; box-shadow: 4px 4px 0 var(--ink); transition: transform .18s, box-shadow .18s; }
+html[data-theme="ledger"] .support-grid article:nth-child(even) { background: #eaf1e2; }
+html[data-theme="ledger"] .support-grid article:hover { transform: translate(-3px, -3px); box-shadow: 7px 7px 0 var(--ink); }
+html[data-theme="ledger"] .support-grid h3 { font: 700 1.12rem var(--head); color: var(--ink); }
+html[data-theme="ledger"] .support-grid p { color: var(--ink2); }
+
+/* ---------- interface preview: framed exhibits ---------- */
+html[data-theme="ledger"] .shots-slider { border-radius: 0; }
+html[data-theme="ledger"] .shots-track { counter-reset: exh; }
+html[data-theme="ledger"] .shot-slide { counter-increment: exh; background: var(--card); border: 2px solid var(--ink); border-radius: 3px; border-right-width: 9px; border-bottom-width: 9px; box-shadow: none; }
+html[data-theme="ledger"] .shot-slide figcaption { color: var(--ink); font: 500 .8rem var(--mono); letter-spacing: .08em; text-transform: uppercase; border-top: 2px dashed var(--ink); }
+html[data-theme="ledger"] .shot-slide figcaption::before { content: "Exh. " counter(exh, upper-alpha) " \2014  "; color: var(--red); font-weight: 600; }
+html[data-theme="ledger"] .shot-arrow { background: var(--card); color: var(--ink); border: 2px solid var(--ink); border-radius: 3px; backdrop-filter: none; box-shadow: 3px 3px 0 var(--ink); }
+html[data-theme="ledger"] .shot-arrow:hover { background: var(--hl); }
+html[data-theme="ledger"] .shot-dots .dot { border-radius: 0; background: transparent; border: 2px solid var(--ink); width: 11px; height: 11px; }
+html[data-theme="ledger"] .shot-dots .dot.active { background: var(--red); border-color: var(--red); box-shadow: none; transform: rotate(45deg); }
+
+/* ---------- pricing: invoice slips with torn bottom edge ---------- */
+html[data-theme="ledger"] .section-night { background: var(--paper2); color: var(--ink); border-block: 3px double var(--ink);
+  background-image: linear-gradient(transparent 31px, rgba(52, 110, 96, .2) 31px 32px); background-size: 100% 32px; }
+html[data-theme="ledger"] .section-night::before { display: none; }
+html[data-theme="ledger"] .head-light h2 { color: var(--ink); }
+html[data-theme="ledger"] .head-light p { color: var(--muted); }
+html[data-theme="ledger"] .group-title { display: flex; align-items: center; gap: 18px; font: 600 .8rem var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--ink); }
+html[data-theme="ledger"] .group-title::before, html[data-theme="ledger"] .group-title::after { content: ""; flex: 1; border-top: 2px solid var(--ink); }
+html[data-theme="ledger"] .empty { color: var(--muted); }
+html[data-theme="ledger"] .plans { filter: drop-shadow(6px 6px 0 rgba(22, 33, 58, .95)); gap: 30px; }
+html[data-theme="ledger"] .plan { background: var(--card); border: 0; border-top: 7px solid var(--a); border-radius: 0; overflow: visible;
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 22px 100%; mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 22px 100%;
+  transition: transform .2s; }
+html[data-theme="ledger"] .plan:hover { transform: translateY(-6px) rotate(-.5deg); border-color: var(--a); box-shadow: none; }
+html[data-theme="ledger"] .plan.has-badge { border-top-width: 12px; box-shadow: none; }
+html[data-theme="ledger"] .plan-top { background: none; color: var(--ink); text-align: left; padding: 24px 24px 18px; border-radius: 0; border-bottom: 2px dashed var(--ink); }
+html[data-theme="ledger"] .plan-top::before { display: none; }
+html[data-theme="ledger"] .plan h4 { font: 800 1.35rem/1.15 var(--head); letter-spacing: -.02em; padding-right: 74px; min-height: 2.3em; }
+html[data-theme="ledger"] .plan-ico { position: absolute; top: 20px; right: 20px; width: 60px; height: 60px; margin: 0; border-radius: 3px; border: 2px solid var(--ink); background: var(--paper); box-shadow: 3px 3px 0 var(--a); transform: rotate(4deg); }
+html[data-theme="ledger"] .plan-ico img { width: 42px; height: 42px; }
+html[data-theme="ledger"] .plan-price { display: inline-block; margin-top: 12px; font: 600 clamp(1.7rem, 3vw, 2.15rem)/1.15 var(--mono); letter-spacing: -.04em; padding-bottom: 2px; border-bottom: 6px double var(--a); }
+html[data-theme="ledger"] .plan-period { font: 500 .72rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); opacity: 1; margin-top: 10px; }
+html[data-theme="ledger"] .plan.has-badge .plan-top { padding-top: 54px; }
+html[data-theme="ledger"] .plan-badge { left: 22px; right: auto; top: 20px; bottom: auto; transform: rotate(-4deg); background: transparent; color: var(--red); border: 2.5px solid var(--red); border-radius: 4px; outline: 1px solid var(--red); outline-offset: 2px; box-shadow: none; font: 700 .68rem var(--mono); letter-spacing: .14em; text-transform: uppercase; padding: 4px 10px; mix-blend-mode: multiply; }
+html[data-theme="ledger"] .plan-body { color: var(--ink); padding: 18px 24px 38px; }
+html[data-theme="ledger"] .plan-list li { padding-bottom: 8px; border-bottom: 1px dotted rgba(22, 33, 58, .38); font-size: .92rem; }
+html[data-theme="ledger"] .plan-list i { color: var(--green); }
+html[data-theme="ledger"] .chip { border-radius: 3px; font: 600 .76rem var(--mono); letter-spacing: .02em; }
+html[data-theme="ledger"] .chip-spec { background: var(--hl-soft); color: var(--ink); border: 1.5px solid var(--ink); }
+html[data-theme="ledger"] .chip-users { background: #e3efe0; color: var(--green); border: 1.5px solid var(--green); }
+html[data-theme="ledger"] .plan-note { color: var(--red); font: 600 .72rem var(--mono); letter-spacing: .04em; }
+html[data-theme="ledger"] .plan-btn { background: var(--ink); color: var(--paper); border: 2px solid var(--ink); border-radius: 3px; box-shadow: 4px 4px 0 var(--a); transition: transform .15s, box-shadow .15s; }
+html[data-theme="ledger"] .plan-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--a); filter: none; }
+html[data-theme="ledger"] .c-sky { --a: #1f4fa8; }
+html[data-theme="ledger"] .c-ocean { --a: #1e6b47; }
+html[data-theme="ledger"] .c-midnight { --a: #c8321f; }
+html[data-theme="ledger"] .c-sun { --a: #c27a0e; }
+
+/* ---------- stats: the "Total" row of the khata ---------- */
+html[data-theme="ledger"] .stats-sec { background: var(--ink); color: var(--paper); background-image: linear-gradient(transparent 31px, rgba(243, 236, 219, .07) 31px 32px); background-size: 100% 32px; }
+html[data-theme="ledger"] .stats-sec::before, html[data-theme="ledger"] .stats-sec::after { display: none; }
+html[data-theme="ledger"] .stats-pill { background: transparent; border: 1.5px dashed rgba(243, 236, 219, .7); border-radius: 3px; color: var(--hl); font: 600 .72rem var(--mono); letter-spacing: .2em; text-transform: uppercase; }
+html[data-theme="ledger"] .stats-pill i { color: var(--hl); }
+html[data-theme="ledger"] .stats-header h2 { color: var(--paper); font-weight: 800; font-size: clamp(1.9rem, 4vw, 3rem); }
+html[data-theme="ledger"] .stats { gap: 0; }
+html[data-theme="ledger"] .stat-card { background: none; border: 0; border-right: 2px dashed rgba(243, 236, 219, .3); border-radius: 0; box-shadow: none; transform: none; min-height: 0; padding: 14px 20px 20px; }
+html[data-theme="ledger"] .stat-card:last-child { border-right: 0; }
+html[data-theme="ledger"] .stat-card:hover { transform: none; box-shadow: none; border-color: rgba(243, 236, 219, .3); }
+html[data-theme="ledger"] .stat-icon { border: 2px solid var(--paper); background: transparent; color: var(--hl); border-radius: 3px; }
+html[data-theme="ledger"] .stat-card b { font: 800 clamp(3rem, 7vw, 5.2rem)/1.05 var(--head); color: var(--paper); -webkit-text-fill-color: var(--paper); background: none; letter-spacing: -.04em; display: inline-block; padding: 0 .08em; margin-top: 4px; border-bottom: 9px double var(--hl); font-variant-numeric: tabular-nums; }
+html[data-theme="ledger"] .stat-card span { color: #cfc8b4; font: 500 .8rem var(--mono); letter-spacing: .2em; margin-top: 14px; }
+html[data-theme="ledger"] .stat-bar { display: none; }
+
+/* ---------- demo: a cheque ---------- */
+html[data-theme="ledger"] .demo-section { background: none; }
+html[data-theme="ledger"] .demo-card { color: var(--ink); background: var(--card); border: 2px solid var(--ink); border-radius: 3px; box-shadow: 11px 11px 0 var(--ink); }
+html[data-theme="ledger"] .demo-card::before { content: "Nº 000142"; position: absolute; z-index: 0; top: 16px; right: 22px; left: auto; width: auto; height: auto; border: 0; border-radius: 0; font: 500 .72rem var(--mono); letter-spacing: .2em; color: var(--muted); }
+html[data-theme="ledger"] .demo-card::after { display: none; }
+html[data-theme="ledger"] .demo-eyebrow { background: var(--hl); border: 2px solid var(--ink); border-radius: 3px; color: var(--ink); font: 600 .7rem var(--mono); letter-spacing: .16em; backdrop-filter: none; }
+html[data-theme="ledger"] .demo-eyebrow i { color: var(--red); }
+html[data-theme="ledger"] .demo-card h2 { font-weight: 800; color: var(--ink); }
+html[data-theme="ledger"] .demo-desc { color: var(--ink2); }
+html[data-theme="ledger"] .contact-card { background: var(--paper); border: 2px dashed var(--ink); border-radius: 3px; backdrop-filter: none; }
+html[data-theme="ledger"] .contact-title { color: var(--ink); font: 700 1.1rem var(--head); border-bottom: 2px dashed var(--ink); }
+html[data-theme="ledger"] .contact-title i { color: var(--red); }
+html[data-theme="ledger"] .contact-list li { background: var(--card); border: 2px solid var(--ink); border-radius: 3px; backdrop-filter: none; color: var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+html[data-theme="ledger"] .contact-list li:hover { background: var(--hl-soft); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--ink); }
+html[data-theme="ledger"] .contact-list li small { color: var(--muted); font-family: var(--mono); letter-spacing: .14em; }
+html[data-theme="ledger"] .contact-list i { background: var(--hl); color: var(--ink); border: 2px solid var(--ink); border-radius: 3px; }
+
+/* ---------- footer: ink + paper, coins fly up to the cloud ---------- */
+html[data-theme="ledger"] .site-footer { --f-bg: #16213a; --f-ink: #cfc8b4; --f-head: #f3ecdb; --f-mute: #aaa38d; --f-accent: #f7e27d; --f-line: rgba(243, 236, 219, .22);
+  --f-cloud: linear-gradient(180deg, #fffdf6, #e5dcc0); --f-cloud-soft: rgba(243, 236, 219, .07); --rack: #1f2d4d; --rack-line: #f3ecdb; --slot: rgba(243, 236, 219, .16); --led: #7ddc9a; --led2: #ff7a66;
+  --pkt: #fffdf6; --pkt-glow: rgba(247, 226, 125, .9); --f-stroke: rgba(243, 236, 219, .45); --f-shine: #f7e27d; --f-ground: #0f1830; border-radius: 0;
+  background-image: linear-gradient(transparent 31px, rgba(243, 236, 219, .05) 31px 32px); background-size: 100% 32px; }
+html[data-theme="ledger"] .site-footer::before { left: 0; right: 0; top: -1px; height: 10px; opacity: 1; z-index: 3;
+  background: linear-gradient(135deg, #f3ecdb 25%, transparent 25%) -10px 0, linear-gradient(225deg, #f3ecdb 25%, transparent 25%) -10px 0; background-size: 20px 20px; }
+html[data-theme="ledger"] .rack { border-radius: 0; }
+html[data-theme="ledger"] .rack i { border-radius: 0; }
+html[data-theme="ledger"] .pkt { width: 17px; height: 17px; margin-left: -8px; border-radius: 3px; border: 1.5px solid #16213a; }
+html[data-theme="ledger"] .pkt::after { content: "\20B9"; display: block; text-align: center; font: 700 10px/14px var(--mono); color: #16213a; }
+html[data-theme="ledger"] .fs-dots i { top: auto; bottom: 6px; width: auto; height: auto; border-radius: 0; background: none; opacity: 0; color: var(--f-accent); font: 500 calc(8px + var(--s) * 1.5) var(--mono); animation: glyph var(--d) linear infinite var(--w); }
+html[data-theme="ledger"] .fs-dots i::before { content: attr(data-g); }
+@keyframes glyph { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: .45; } 100% { transform: translateY(-230px); opacity: 0; } }
+html[data-theme="ledger"] .fs-arrow { color: #16213a; }
+html[data-theme="ledger"] .fs-ring { border-style: dashed; }
+html[data-theme="ledger"] .foot-logo { border-radius: 3px; background: var(--card); box-shadow: 4px 4px 0 var(--f-accent); }
+html[data-theme="ledger"] .foot-col h3 { font-family: var(--mono); }
+html[data-theme="ledger"] .foot-mark { font-style: italic; font-weight: 800; letter-spacing: -.05em; }
+html[data-theme="ledger"] .to-top { border-radius: 3px; font-family: var(--mono); text-transform: uppercase; letter-spacing: .1em; font-size: .72rem; border: 1.5px solid var(--f-ink); }
+html[data-theme="ledger"] .foot-body .btn-glow { background: var(--f-accent); color: var(--ink); border-color: var(--f-accent); box-shadow: 4px 4px 0 rgba(243, 236, 219, .35); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1000px) {
+  html[data-theme="ledger"] body::before { left: 28px; }
+}
+@media (max-width: 900px) {
+  html[data-theme="ledger"] .hero { padding: 48px 0 100px; }
+  html[data-theme="ledger"] .hero-copy { align-items: center; }
+  html[data-theme="ledger"] .lead { border-left: 0; padding-left: 0; border-top: 3px double var(--ink); padding-top: 14px; }
+  html[data-theme="ledger"] .hero-art { max-width: 400px; margin-top: 18px; }
+  html[data-theme="ledger"] .stamp { width: 100px; height: 100px; left: -14px; bottom: -34px; }
+  html[data-theme="ledger"] .nav a:not(.btn) { font: 700 clamp(1.6rem, 7.5vw, 2.1rem)/1.1 var(--head); text-transform: none; letter-spacing: -.02em; border-radius: 0; }
+  html[data-theme="ledger"] .nav a:not(.btn)::before { font: 500 .78rem var(--mono); }
+  html[data-theme="ledger"] .nav a:not(.btn):hover { background: transparent; }
+}
+@media (max-width: 680px) {
+  html[data-theme="ledger"] body::before { display: none; }
+  html[data-theme="ledger"] .feat { padding-left: 30px; }
+  html[data-theme="ledger"] .stats { padding: 0; }
+  html[data-theme="ledger"] .stat-card { border-right: 0; border-bottom: 2px dashed rgba(243, 236, 219, .3); padding: 26px 10px; }
+  html[data-theme="ledger"] .stat-card:last-child { border-bottom: 0; }
+  html[data-theme="ledger"] .demo-card { box-shadow: 6px 6px 0 var(--ink); }
+  html[data-theme="ledger"] .plans { filter: drop-shadow(4px 4px 0 rgba(22, 33, 58, .95)); }
+  html[data-theme="ledger"] .shot-slide { border-right-width: 6px; border-bottom-width: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="ledger"] .stamp-ring { animation: none; }
+}

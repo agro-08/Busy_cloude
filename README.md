@@ -33,3 +33,7 @@ busy-on-cloud/
 3. Open http://localhost:3000 (site) and http://localhost:3000/admin.html (admin, first password `admin123` – change it in Admin → Security).
 
 The backend serves `frontend/public`, so one process = full site. See `docs/ARCHITECTURE.md` and `database/README.md`.
+
+
+## Designs
+Admin → Design, Demo & Contact → Website design: **Sky Bubble**, **Night Neon**, **Ledger Book**. Ticker and footer animation are also controlled from the same admin page (css/theme-*.css, js/main.js).

@@ -46,7 +46,12 @@ const BOC = (() => {
       heroText: 'Run BUSY Accounting Software anytime, anywhere, on any device or operating system, with security, stability, privacy and reliability.',
       stat1n: '20',   stat1l: 'Partners',
       stat2n: '150',  stat2l: 'Projects',
-      stat3n: '3000', stat3l: 'Happy Clients'
+      stat3n: '3000', stat3l: 'Happy Clients',
+      tickerOn: 'on',
+      tickerItems: 'Servers built for BUSY\nHTML5 browser + RDP access\nDaily scheduled backups\nMonitored 24x7\nPlans from \u20b9 850 per user',
+      footerAnim: 'on',
+      footerTagline: 'Your BUSY data, safe in the cloud and open from anywhere.',
+      footerNote: 'Made with care in India.'
     },
     images: {},
     products: [

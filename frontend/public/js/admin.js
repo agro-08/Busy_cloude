@@ -302,8 +302,21 @@
 
   /* ---------- settings ---------- */
   const SETTINGS = [
-    { group: 'Website design', note: 'Change the overall look of the website here. Save and refresh the site to see the update.', fields: [
-      { k: 'theme', l: 'Design', h: 'Sky Bubble = white + sky blue with rounded cards and coral button. Night Neon = dark futuristic.', opts: [['sky', 'Sky Bubble (light)'], ['night', 'Night Neon (dark futuristic)']] }
+    { group: 'Website design', note: 'Change the overall look of the website here. Pick a design, press Save, then refresh the website.', fields: [
+      { k: 'theme', l: 'Design', h: 'Each design changes the layout style, fonts, buttons, cards, pricing and footer, not just colours.', picker: [
+        ['sky', 'Sky Bubble', 'Light, white + sky blue, round bubbly cards, coral buttons'],
+        ['night', 'Night Neon', 'Dark futuristic, glowing cyan, grid lines'],
+        ['ledger', 'Ledger Book', 'Accounting khata: ruled paper, ink, stamps, receipt-style plans']
+      ] }
+    ] },
+    { group: 'Announcement ticker', note: 'A moving tape that runs across the website just below the Home section.', fields: [
+      { k: 'tickerOn', l: 'Show ticker', h: 'Turn the moving tape on or off', opts: [['on', 'On'], ['off', 'Off']] },
+      { k: 'tickerItems', l: 'Ticker lines', h: 'One line per message. Add, remove or edit lines freely.', area: true }
+    ] },
+    { group: 'Footer', note: 'The bottom area of the website: animated servers sending data to the cloud, links and contact.', fields: [
+      { k: 'footerAnim', l: 'Footer animation', h: 'Servers, data packets and cloud movement. Turn Off for a still footer.', opts: [['on', 'On'], ['off', 'Off']] },
+      { k: 'footerNote', l: 'Small footer line', h: 'Shown next to the copyright text' },
+      { k: 'footerTagline', l: 'Footer tagline', h: 'Short line shown under the logo in the footer', area: true }
     ] },
     { group: 'Quick Demo (WhatsApp)', note: 'The website’s “Quick Demo” buttons (Home + Contact section) open WhatsApp when clicked.', fields: [
       { k: 'demoButtonText', l: 'Demo button text', h: 'This text appears on the buttons in the Home and Contact sections' },
@@ -319,7 +332,7 @@
       { k: 'heroText', l: 'Paragraph', h: 'Text shown below the heading', area: true },
       { k: 'brandName', l: 'Brand name', h: 'Shown with the footer copyright text' }
     ] },
-    { group: 'Numbers strip', note: 'Three numbers shown in the blue strip below pricing.', fields: [
+    { group: 'Numbers strip', note: 'Three numbers shown in the Numbers strip below pricing. They count up when the visitor scrolls to them.', fields: [
       { k: 'stat1n', l: 'Number 1', h: 'e.g. 20' }, { k: 'stat1l', l: 'Label 1', h: 'e.g. Partners' },
       { k: 'stat2n', l: 'Number 2', h: 'e.g. 150' }, { k: 'stat2l', l: 'Label 2', h: 'e.g. Projects' },
       { k: 'stat3n', l: 'Number 3', h: 'e.g. 3000' }, { k: 'stat3l', l: 'Label 3', h: 'e.g. Happy Clients' }
@@ -332,7 +345,9 @@
         <h2>${esc(g.group)}</h2>
         <p class="muted">${esc(g.note)}</p>
         <div class="grid2" style="margin-top:12px">
-          ${g.fields.map(f => `<label ${f.area ? 'style="grid-column:1/-1"' : ''}>${esc(f.l)} <small>${esc(f.h)}</small>
+          ${g.fields.map(f => f.picker ? `<div style="grid-column:1/-1"><b class="lbl">${esc(f.l)}</b> <small class="lbl-h">${esc(f.h)}</small>
+            <div class="designs">${f.picker.map(o => `<label class="dz"><input type="radio" name="${f.k}" value="${o[0]}"${(s[f.k] || 'sky') === o[0] ? ' checked' : ''}>
+              <span class="dz-card"><span class="dz-prev p-${o[0]}"><i></i><i></i><i></i></span><b>${esc(o[1])}</b><small>${esc(o[2])}</small></span></label>`).join('')}</div></div>` : `<label ${f.area ? 'style="grid-column:1/-1"' : ''}>${esc(f.l)} <small>${esc(f.h)}</small>
             ${f.opts ? `<select name="${f.k}">${f.opts.map(o => `<option value="${o[0]}"${s[f.k] === o[0] ? ' selected' : ''}>${o[1]}</option>`).join('')}</select>` : f.area ? `<textarea name="${f.k}" rows="3">${esc(s[f.k])}</textarea>` : `<input name="${f.k}" value="${esc(s[f.k])}" ${f.tel ? 'inputmode="numeric"' : ''}>`}</label>`).join('')}
         </div>
       </div>`).join('<hr style="border:0;border-top:1px solid var(--line);width:100%">') +
@@ -344,6 +359,7 @@
     const fd = new FormData($('settingsForm'));
     const s = D().settings;
     for (const [k, v] of fd.entries()) s[k] = String(v).trim();
+    if (!/^(sky|night|ledger)$/.test(s.theme)) s.theme = 'sky';
     s.whatsapp = s.whatsapp.replace(/\D/g, '');
     if (await persist('Settings saved')) renderSettings();
   });
